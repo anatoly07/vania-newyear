@@ -28,7 +28,14 @@
       overscroll-behavior: none;
 
       /* Fondo base (puedes cambiar a plomo si quieres) */
-      background: radial-gradient(circle at top, #0b1d3a 0%, #020412 60%, #000 100%);
+      /* background: radial-gradient(circle at top, #0b1d3a 0%, #020412 60%, #000 100%); */
+      background:
+        radial-gradient(circle at 50% -20%,
+          #5a5a5a 0%,
+          #3f3f3f 35%,
+          #262626 65%,
+          #0f0f0f 100%);
+
 
       color: #fff;
       font-family: "Poppins","Segoe UI",Arial,sans-serif;
@@ -176,12 +183,13 @@
     /* ===== ESTADO FESTIVO FINAL (PLOMO, NO AZUL) ===== */
     body.celebration {
       background:
-        radial-gradient(circle at 50% -20%,
-          #5a5a5a 0%,
-          #3f3f3f 35%,
-          #262626 65%,
-          #0f0f0f 100%);
+        radial-gradient(circle at 50% -15%,
+          #f4f4f2 0%,
+          #d9d9d7 32%,
+          #9a9a9a 58%,
+          #2a2a2a 100%);
     }
+
 
     /* Iluminamos la tarjeta en el final */
     body.celebration .card {
@@ -194,9 +202,10 @@
 
     /* Glow suave al título */
     body.celebration .final h1 {
+      color: #ffffff;
       text-shadow:
-        0 0 22px rgba(255,255,255,0.42),
-        0 12px 34px rgba(0,0,0,0.55);
+        0 0 26px rgba(255,255,255,0.55),
+        0 10px 28px rgba(0,0,0,0.35);
     }
 
     /* Texto secundario más claro */
