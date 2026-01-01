@@ -103,10 +103,11 @@
     /* Contenedor del tiempo */
     .time-grid{
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      justify-items: center;                 /* clave */
+      gap: clamp(18px, 6vw, 34px);           /* más aire */
       align-items: end;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
     }
 
     .unit{
@@ -122,15 +123,14 @@
       font-size: clamp(40px, 10vh, 88px);
       line-height: 1;
 
-      /* Ancho estable: evita saltos/scroll al cambiar dígitos */
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1;
       white-space: nowrap;
+
       display: inline-block;
-      width: 2ch;           /* 2 dígitos fijo */
+      min-width: 2.6em;        /* ✅ estable en todos los móviles */
       text-align: center;
 
-      /* Un toque de profundidad sin “reventar” */
       text-shadow: 0 12px 28px rgba(0,0,0,0.55);
     }
 
@@ -214,6 +214,11 @@
       color: #f7f7f7;
       text-shadow: 0 6px 20px rgba(0,0,0,0.45);
     }
+
+    @media (max-width: 380px){
+      .number{ font-size: clamp(36px, 9vh, 78px); }
+    }
+
   </style>
 
 </head>
