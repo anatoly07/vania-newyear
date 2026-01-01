@@ -19,36 +19,53 @@
 
     html, body{
       height: 100%;
+      width: 100%;
       margin: 0;
-      background:
-        radial-gradient(circle at top, var(--bg-top), var(--bg-bottom));
+
+      /* Anti-scroll (a prueba de Android/Chrome) */
+      overflow-x: hidden;
+      overflow-y: hidden;
+      overscroll-behavior: none;
+
+      /* Fondo base (puedes cambiar a plomo si quieres) */
+      background: radial-gradient(circle at top, #0b1d3a 0%, #020412 60%, #000 100%);
+
       color: #fff;
       font-family: "Poppins","Segoe UI",Arial,sans-serif;
     }
 
+    /* Evita “micro-scroll” por cambios de viewport/barras del navegador */
+    body{
+      position: fixed;
+      inset: 0;
+    }
+
     .screen{
-      height: 100%;
-      display: grid;
-      place-items: center;
-      padding: 5vh 6vw;
+      height: 100dvh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 4vh, 28px) clamp(12px, 5vw, 24px);
       text-align: center;
     }
 
     .card{
-      width: min(520px, 100%);
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
       background: rgba(0,0,0,0.35);
       border-radius: 22px;
       padding: 24px 18px 28px;
       box-shadow: 0 18px 45px rgba(0,0,0,0.55);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+
+      /* Evita desbordes por sombras/blur */
+      overflow: hidden;
     }
 
-    .label{
-      font-weight: 600;
-      font-size: clamp(14px, 2.5vh, 20px);
-      margin-bottom: 18px;
-      opacity: 0.95;
-    }
+    .hidden{ display: none !important; }
 
     .name{
       font-family: "Bebas Neue","Montserrat","Segoe UI",Arial,sans-serif;
@@ -58,6 +75,17 @@
       line-height: 1;
       margin-bottom: 10px;
       text-shadow: 0 12px 32px rgba(0,0,0,0.55);
+
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .label{
+      font-weight: 600;
+      font-size: clamp(14px, 2.5vh, 20px);
+      margin-bottom: 18px;
+      opacity: 0.95;
+      line-height: 1.25;
     }
 
     /* Contenedor del tiempo */
@@ -73,6 +101,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-width: 0;
     }
 
     .number{
@@ -80,6 +109,17 @@
       font-weight: 900;
       font-size: clamp(40px, 10vh, 88px);
       line-height: 1;
+
+      /* Ancho estable: evita saltos/scroll al cambiar dígitos */
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+      white-space: nowrap;
+      display: inline-block;
+      width: 2ch;           /* 2 dígitos fijo */
+      text-align: center;
+
+      /* Un toque de profundidad sin “reventar” */
+      text-shadow: 0 12px 28px rgba(0,0,0,0.55);
     }
 
     .unit-label{
@@ -96,15 +136,15 @@
       font-size: clamp(110px, 20vh, 200px);
       line-height: 1;
       animation: pulse 1s infinite;
+      text-shadow: 0 14px 34px rgba(0,0,0,0.60);
     }
-
-    .hidden{ display: none !important; }
 
     .final h1{
       font-family: "Bebas Neue","Montserrat",sans-serif;
       font-size: clamp(56px, 12vh, 120px);
       margin: 0;
       letter-spacing: 0.04em;
+      line-height: 1;
     }
 
     .final h2{
@@ -119,6 +159,7 @@
       margin-top: 10px;
       font-size: clamp(13px, 2.4vh, 18px);
       opacity: 0.9;
+      line-height: 1.35;
     }
 
     @keyframes pulse{
@@ -127,17 +168,17 @@
       100%{ transform: scale(1); }
     }
 
-    /* ===== ESTADO FESTIVO FINAL ===== */
+    /* ===== ESTADO FESTIVO FINAL (PLOMO, NO AZUL) ===== */
     body.celebration {
       background:
-        radial-gradient(circle at top,
-          #1e3c72 0%,
-          #2a5298 40%,
-          #0b1d3a 70%,
-          #000 100%);
+        radial-gradient(circle at 50% -20%,
+          #5a5a5a 0%,
+          #3f3f3f 35%,
+          #262626 65%,
+          #0f0f0f 100%);
     }
 
-    /* Iluminamos la tarjeta */
+    /* Iluminamos la tarjeta en el final */
     body.celebration .card {
       background: rgba(255,255,255,0.12);
       box-shadow:
@@ -146,21 +187,21 @@
         inset 0 0 40px rgba(255,255,255,0.08);
     }
 
-    /* Glow suave al texto principal */
+    /* Glow suave al título */
     body.celebration .final h1 {
       text-shadow:
-        0 0 25px rgba(255,255,255,0.45),
-        0 10px 35px rgba(0,0,0,0.55);
+        0 0 22px rgba(255,255,255,0.42),
+        0 12px 34px rgba(0,0,0,0.55);
     }
 
     /* Texto secundario más claro */
     body.celebration .final h2,
     body.celebration .final p {
-      color: #f5f7ff;
+      color: #f7f7f7;
       text-shadow: 0 6px 20px rgba(0,0,0,0.45);
     }
-
   </style>
+
 </head>
 
 <body>
