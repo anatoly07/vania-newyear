@@ -50,6 +50,16 @@
       opacity: 0.95;
     }
 
+    .name{
+      font-family: "Bebas Neue","Montserrat","Segoe UI",Arial,sans-serif;
+      font-weight: 400;
+      font-size: clamp(48px, 8vh, 96px);
+      letter-spacing: 0.08em;
+      line-height: 1;
+      margin-bottom: 10px;
+      text-shadow: 0 12px 32px rgba(0,0,0,0.55);
+    }
+
     /* Contenedor del tiempo */
     .time-grid{
       display: grid;
@@ -116,6 +126,40 @@
       50%{ transform: scale(1.08); }
       100%{ transform: scale(1); }
     }
+
+    /* ===== ESTADO FESTIVO FINAL ===== */
+    body.celebration {
+      background:
+        radial-gradient(circle at top,
+          #1e3c72 0%,
+          #2a5298 40%,
+          #0b1d3a 70%,
+          #000 100%);
+    }
+
+    /* Iluminamos la tarjeta */
+    body.celebration .card {
+      background: rgba(255,255,255,0.12);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.18),
+        0 25px 70px rgba(0,0,0,0.45),
+        inset 0 0 40px rgba(255,255,255,0.08);
+    }
+
+    /* Glow suave al texto principal */
+    body.celebration .final h1 {
+      text-shadow:
+        0 0 25px rgba(255,255,255,0.45),
+        0 10px 35px rgba(0,0,0,0.55);
+    }
+
+    /* Texto secundario más claro */
+    body.celebration .final h2,
+    body.celebration .final p {
+      color: #f5f7ff;
+      text-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    }
+
   </style>
 </head>
 
@@ -125,8 +169,11 @@
 
       <!-- CONTADOR -->
       <div id="countdown">
+        <div class="name">
+          Vania
+        </div>
         <div class="label">
-          Vania, falta poquito para comenzar un nuevo año ✨
+          Falta poquito para comenzar un nuevo año ✨
         </div>
 
         <div class="time-grid" id="timeGrid">
@@ -164,7 +211,7 @@
 
   <script>
     /* ========= CONFIGURACIÓN ========= */
-    const DEMO_MODE = false;        // false = real
+    const DEMO_MODE = true;        // false = real
     const DEMO_SECONDS = 30;
     const FINAL_COUNTDOWN_SECONDS = 10;
     /* ================================= */
@@ -202,10 +249,12 @@
       const diff = getDiffSeconds();
 
       if (diff <= 0){
+        document.body.classList.add("celebration");
         el.countdown.classList.add("hidden");
         el.final.classList.remove("hidden");
         return;
       }
+
 
       if (diff <= FINAL_COUNTDOWN_SECONDS){
         el.grid.classList.add("hidden");
