@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cuenta regresiva</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700;800;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lottie web component (tu fuente) -->
+  <script
+    src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js"
+    type="module">
+  </script>
+
+  <style>
+    :root{
+      --outline-strong: rgba(0,0,0,0.86);
+      --outline-soft: rgba(0,0,0,0.70);
+    }
+
+    *{ box-sizing: border-box; }
+
+    html, body{
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      color: #fff;
+      /* fallback si Lottie no carga */
+      background: radial-gradient(circle at top, #0b1d3a 0%, #020412 60%, #000 100%);
+    }
+
+    .hidden{ display:none !important; }
+
+    /* Fondo animado a pantalla completa */
+    dotlottie-wc#bgLottie{
+      position: fixed;
+      inset: 0;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* Capa oscura para legibilidad */
+    #overlay{
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 30% 15%, rgba(0,0,0,0.18), rgba(0,0,0,0.80) 70%),
+        linear-gradient(to bottom, rgba(0,0,0,0.20), rgba(0,0,0,0.85));
+    }
+
+    /* Contenedor centrado para móvil vertical */
+    .screen{
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: clamp(16px, 4vh, 40px) clamp(14px, 5vw, 28px);
+      text-align: center;
+    }
+
+    .card{
+      width: min(520px, 100%);
+      display: grid;
+      gap: clamp(10px, 2.2vh, 18px);
+    }
+
+    .outline{
+      text-shadow:
+        -2px  0px 0 var(--outline-strong),
+         2px  0px 0 var(--outline-strong),
+         0px -2px 0 var(--outline-strong),
+         0px  2px 0 var(--outline-strong),
+        -2px -2px 0 var(--outline-soft),
+         2px -2px 0 var(--outline-soft),
+        -2px  2px 0 var(--outline-soft),
+         2px  2px 0 var(--outline-soft),
+         0px 12px 30px rgba(0,0,0,0.55);
+    }
+
+    #label{
+      font-family: "Poppins","Segoe UI",Arial,sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      opacity: 0.95;
+      font-size: clamp(14px, 2.4vh, 20px);
+      line-height: 1.25;
+      padding: 0 2vw;
+    }
+
+    #time{
+      font-family: "Montserrat","Segoe UI",Arial,sans-serif;
+      font-weight: 900;
+      font-size: clamp(48px, 9.5vh, 96px);
+      letter-spacing: 0.06em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    #seconds{
+      font-family: "Montserrat","Segoe UI",Arial,sans-serif;
+      font-weight: 900;
+      font-size: clamp(110px, 18vh, 190px);
+      line-height: 1;
+      animation: pulse 1s infinite;
+      will-change: transform, opacity;
+    }
+
+    #final{
+      animation: appear 1.1s ease-out forwards;
+    }
+
+    #final h1{
+      font-family: "Bebas Neue","Montserrat","Segoe UI",Arial,sans-serif;
+      font-weight: 400;
+      font-size: clamp(64px, 11vh, 120px);
+      margin: 0;
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+    }
+
+    #final h2{
+      font-family: "Poppins","Segoe UI",Arial,sans-serif;
+      font-weight: 700;
+      font-size: clamp(14px, 2.5vh, 22px);
+      margin: 0;
+      opacity: 0.96;
+      line-height: 1.25;
+      padding: 0 3vw;
+      text-shadow: 0 10px 28px rgba(0,0,0,0.55);
+    }
+
+    @keyframes pulse{
+      0%{ transform: scale(1); opacity: 1; }
+      50%{ transform: scale(1.10); opacity: .9; }
+      100%{ transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes appear{
+      from{ opacity: 0; transform: scale(0.97); }
+      to{ opacity: 1; transform: scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      #seconds{ animation: none; }
+      #final{ animation: none; }
+      /* si prefieren menos movimiento, quitamos lottie */
+      dotlottie-wc#bgLottie{ display:none; }
+    }
+
+    /* Si alguien abre en horizontal */
+    @media (orientation: landscape){
+      .card{ width: min(720px, 100%); }
+      #time{ font-size: clamp(44px, 10vw, 90px); }
+      #seconds{ font-size: clamp(90px, 14vw, 150px); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- FONDO ANIMADO (tu lottie) -->
+  <dotlottie-wc
+    id="bgLottie"
+    src="https://lottie.host/84b18530-720e-496a-a527-c3eea39be3c1/vEZVAtECKG.lottie"
+    autoplay
+    loop>
+  </dotlottie-wc>
+
+  <div id="overlay"></div>
+
+  <main class="screen" aria-live="polite">
+    <section class="card">
+
+      <div id="countdown">
+        <div id="label">Faltan para recibir el Año Nuevo</div>
+        <div id="time" class="outline">--:--:--</div>
+        <div id="seconds" class="outline hidden">10</div>
+      </div>
+
+      <div id="final" class="hidden">
+        <h1 class="outline">¡Feliz Año 2026!</h1>
+        <h2>SIEMBRA CON FE Y COSECHA EN ABUNDANCIA</h2>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    /* ================= CONFIGURACIÓN ================= */
+    const DEMO_MODE = true;          // true → demo, false → real
+    const DEMO_SECONDS = 30;         // demo: duración
+    const FINAL_COUNTDOWN_SECONDS = 10;
+    /* ================================================ */
+
+    const el = {
+      label: document.getElementById("label"),
+      time: document.getElementById("time"),
+      seconds: document.getElementById("seconds"),
+      countdown: document.getElementById("countdown"),
+      final: document.getElementById("final"),
+    };
+
+    let demoStart = Date.now();
+    let lastKey = "";
+    let timerId = null;
+
+    const pad2 = (n) => (n < 10 ? "0" + n : "" + n);
+    const setHidden = (node, hidden) => node.classList.toggle("hidden", hidden);
+
+    function getDiffSeconds(){
+      if (DEMO_MODE){
+        const elapsed = Math.floor((Date.now() - demoStart) / 1000);
+        return DEMO_SECONDS - elapsed;
+      }
+      const now = new Date();
+      const target = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
+      return Math.floor((target - now) / 1000);
+    }
+
+    function scheduleNextTick(){
+      if (timerId) clearTimeout(timerId);
+      const msToNextSecond = 1000 - (Date.now() % 1000);
+      timerId = setTimeout(render, msToNextSecond + 10);
+    }
+
+    function render(){
+      const diff = getDiffSeconds();
+
+      if (diff <= 0){
+        if (lastKey !== "final"){
+          setHidden(el.countdown, true);
+          setHidden(el.final, false);
+          lastKey = "final";
+        }
+        return scheduleNextTick();
+      }
+
+      if (diff <= FINAL_COUNTDOWN_SECONDS){
+        const key = "secs:" + diff;
+        if (lastKey !== key){
+          setHidden(el.label, true);
+          setHidden(el.time, true);
+          setHidden(el.seconds, false);
+          el.seconds.textContent = String(diff);
+          lastKey = key;
+        }
+        return scheduleNextTick();
+      }
+
+      const h = Math.floor(diff / 3600);
+      const m = Math.floor((diff % 3600) / 60);
+      const s = diff % 60;
+
+      const text = `${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+      const key = "time:" + text;
+
+      if (lastKey !== key){
+        setHidden(el.label, false);
+        setHidden(el.time, false);
+        setHidden(el.seconds, true);
+        el.time.textContent = text;
+        lastKey = key;
+      }
+
+      scheduleNextTick();
+    }
+
+    render();
+
+    // Si el lottie por alguna razón no carga, no afecta el contador.
+    // (fallback ya está en el background del body)
+    const bg = document.getElementById("bgLottie");
+    if (bg){
+      bg.addEventListener?.("error", () => {
+        bg.remove();
+      });
+    }
+  </script>
+</body>
+</html>
