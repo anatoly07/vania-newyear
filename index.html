@@ -108,22 +108,23 @@
       position: relative;
     }
 
-    .number{
-      font-family: "Montserrat","Segoe UI",Arial,sans-serif;
-      font-weight: 900;
-      font-size: clamp(40px, 10vh, 88px);
-      line-height: 1;
+  .number{
+    font-family: "Montserrat","Segoe UI",Arial,sans-serif;
+    font-weight: 800;                  /* ↓ menos inflado */
+    font-size: clamp(38px, 9vh, 78px); /* ↓ más aire */
+    line-height: 1;
 
-      font-variant-numeric: tabular-nums;
-      font-feature-settings: "tnum" 1;
-      white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    letter-spacing: 0.06em;            /* ✅ separación perceptiva */
 
-      display: inline-block;
-      padding: 0 6px; /* ✅ aire visual */
-      text-align: center;
+    white-space: nowrap;
+    display: inline-block;
+    text-align: center;
 
-      text-shadow: 0 12px 28px rgba(0,0,0,0.55);
-    }
+    text-shadow: 0 12px 28px rgba(0,0,0,0.55);
+  }
+
 
     .unit-label{
       margin-top: 8px;
